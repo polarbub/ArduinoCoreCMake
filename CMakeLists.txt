@@ -26,17 +26,15 @@ string(REGEX MATCH "version=[0-9\\.]+" version "${version}")
 string(REGEX REPLACE "version=([0-9\\.]+)" "\\1" version "${version}")
 
 # set library metadata
-project(arduino-core VERSION ${version} DESCRIPTION "Builds the arduino core with cmake" LANGUAGES CXX C ASM)
+project(ArduinoCoreCMake VERSION ${version} DESCRIPTION "Builds the arduino core with cmake" LANGUAGES CXX C ASM)
+set(CORE_DIR ${CMAKE_CURRENT_LIST_DIR}/ArduinoCore-avr)
 
-#Remove header from SRC_FILES regex:
-#' src/[^\n ]*\.h'
-# Define a variable containing a list of source files for the project
-
-file(GLOB SRC_ARDUINO ArduinoCore-avr/cores/arduino/*.cpp ArduinoCore-avr/cores/arduino/*.c)
+file(GLOB SRC ArduinoCore-avr/cores/arduino/*.cpp ArduinoCore-avr/cores/arduino/*.c)
 
 # Define the build target for the library
-add_library(${PROJECT_NAME} ${SRC_ARDUINO})
+add_library(${PROJECT_NAME} ${SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 #target is used to only effect this library.
 target_include_directories(${PROJECT_NAME} PUBLIC ArduinoCore-avr/cores/arduino)
+target_include_directories(${PROJECT_NAME} PUBLIC "ArduinoCore-avr/variants/${ArduinoCoreCMake_variant}/")
