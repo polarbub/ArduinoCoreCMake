@@ -34,7 +34,9 @@ file(GLOB SRC ArduinoCore-avr/cores/arduino/*.cpp ArduinoCore-avr/cores/arduino/
 # Define the build target for the library
 add_library(${PROJECT_NAME} ${SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 #target is used to only effect this library.
 target_include_directories(${PROJECT_NAME} PUBLIC ArduinoCore-avr/cores/arduino)
 target_include_directories(${PROJECT_NAME} PUBLIC "ArduinoCore-avr/variants/${ArduinoCoreCMake_variant}/")
+target_include_directories(${PROJECT_NAME} PUBLIC "ArduinoCore-avr/libraries/EEPROM/src")
